@@ -1,5 +1,5 @@
 import { all } from 'redux-saga/effects';
-import { watchLatestSearchTermChange, watchSearchRequest } from './productListSagas';
+import { watchLatestSearchTermChange, watchSearchRequest } from './searchSagas';
 
 // watch latest searchTerm change, and dispatch the request action, with takeAll
 export function* rootSaga() {

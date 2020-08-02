@@ -5,9 +5,9 @@ import {
   takeEvery,
   takeLatest
 } from 'redux-saga/effects';
-import { fetchProductList } from '../services';
-import { actions } from '../store/domains';
-import { productListSelector } from '../store/selectors';
+import { fetchSearchWithSearchTerm } from '../services';
+import { actions } from '../domains';
+import { searchTermSelector } from '../selectors';
 
 
 export function* dispatchSearchRequest() {
@@ -23,17 +23,19 @@ export function* watchSearchRequest(){
 } 
 
 export function* fetchSearchResults() {
-  const productList = yield select(productListSelector);
-  const shouldLoadProducts = productList.length === 0;
+  const searchTerm = yield select(searchTermSelector);
+  const shouldDispatchSearch = searchTerm.length === 0;
   try {
-    if (shouldLoadProducts) {
-      const requestResult = yield call(fetchProductList);
+    if (shouldDispatchSearch) {
+      const requestResult = yield call(fetchSearchWithSearchTerm, searchTerm);
 
-      
+      console.log(requestResult, 'da request');
+
+      yield put(actions.searchSuccessful(requestResult));
     }
   } catch (error) {
     console.error(error);
 
-    yield put(actions.productListFailed());
+    yield put(actions.searchFailure());
   }
 }
