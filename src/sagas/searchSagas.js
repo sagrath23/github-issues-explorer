@@ -1,5 +1,6 @@
 import {
   call,
+  delay,
   put,
   select,
   takeEvery,
@@ -11,7 +12,9 @@ import { searchTermSelector } from '../selectors';
 
 
 export function* dispatchSearchRequest() {
-  yield put(actions.searchRequest()); // check if it's necessary to pass searchTerm here
+  // debounce by 500ms
+  yield delay(500);
+  yield put(actions.searchRequest());
 }
 
 export function* watchLatestSearchTermChange() {
@@ -24,14 +27,13 @@ export function* watchSearchRequest(){
 
 export function* fetchSearchResults() {
   const searchTerm = yield select(searchTermSelector);
-  const shouldDispatchSearch = searchTerm.length === 0;
+  const shouldDispatchSearch = searchTerm.length !== 0;
+
   try {
     if (shouldDispatchSearch) {
       const requestResult = yield call(fetchSearchWithSearchTerm, searchTerm);
 
-      console.log(requestResult, 'da request');
-
-      yield put(actions.searchSuccessful(requestResult));
+      yield put(actions.searchSuccessful({ results: requestResult }));
     }
   } catch (error) {
     console.error(error);

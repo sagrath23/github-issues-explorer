@@ -1,8 +1,14 @@
 import { Octokit } from '@octokit/rest';
 
 export const fetchSearchWithSearchTerm = async (searchTerm) => {
+  // TODO: add capability to set auth token
+  const octokit = new Octokit({});
 
-  console.log(searchTerm, 'in service');
+  // check for open issues at react repo
+  const result = await octokit.search.issuesAndPullRequests({
+    q: `repo:facebook/react+is:issue+is:open+${searchTerm}`
+  })
+  console.log(result, 'in service');
 
-  return new Promise.resolve([]);
+  return result.data.items;
 };
