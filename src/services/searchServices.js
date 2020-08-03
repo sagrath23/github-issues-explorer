@@ -10,3 +10,16 @@ export const fetchSearchWithSearchTerm = async (searchTerm) => {
 
   return result.data.items;
 };
+
+export const fetchIssue = async (issueId) => {
+  const octokit = new Octokit({});
+  const result = await octokit.issues.get({
+    owner: 'facebook',
+    repo: 'react',
+    issue_number: issueId
+  });
+
+  console.log(result, 'da result');
+
+  return result;
+};

@@ -1,4 +1,5 @@
-import { createActions, handleActions } from 'redux-actions';
+import { combineActions, createActions, handleActions } from 'redux-actions';
+import { fetchIssue } from '../../services/searchServices';
 
 export const initialState = {
   searchTerm: '',
@@ -12,12 +13,18 @@ const {
   changeSearchTerm,
   searchRequest,
   searchSuccessful,
-  searchFailure
+  searchFailure,
+  fetchIssueRequest,
+  fetchIssueSuccessful,
+  fetchIssueFailure
 } = createActions({
   CHANGE_SEARCH_TERM: ({ searchTerm }) => ({ searchTerm }),
   SEARCH_REQUEST: undefined,
   SEARCH_SUCCESSFUL: ({ results }) => ({ results }), 
-  SEARCH_FAILURE: undefined
+  SEARCH_FAILURE: undefined,
+  FETCH_ISSUE_REQUEST: ({ issueId }) => ({ issueId }),
+  FETCH_ISSUE_SUCCESSFUL: ({ results }) => ({ results }),
+  FETCH_ISSUE_FAILURE: undefined
 });
 
 export const reducer = handleActions({
@@ -25,20 +32,20 @@ export const reducer = handleActions({
     ...state,
     searchTerm
   }),
-  [searchRequest]: (state) => ({
+  [combineActions(searchRequest, fetchIssueRequest)]: (state) => ({
     ...state,
     ui: {
       isLoading: true
     }
   }),
-  [searchSuccessful]: (state, { payload: { results }}) =>  ({
+  [combineActions(searchSuccessful, fetchIssueSuccessful)]: (state, { payload: { results }}) =>  ({
     ...state,
     results,
     ui: {
       isLoading: false
     }
   }),
-  [searchFailure]: (state) => ({
+  [combineActions(searchFailure, fetchIssueFailure)]: (state) => ({
     ...state,
     ui: {
       isLoading: false
@@ -50,5 +57,8 @@ export const actions = {
   changeSearchTerm,
   searchRequest,
   searchSuccessful,
-  searchFailure
+  searchFailure,
+  fetchIssueRequest,
+  fetchIssueSuccessful,
+  fetchIssueFailure
 };
