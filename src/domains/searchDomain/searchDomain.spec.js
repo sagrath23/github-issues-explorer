@@ -28,6 +28,6 @@ describe('search domain', () =>{
       [actions.fetchIssueSuccessful({ results }), initialState, { ...initialState, results, ui: { isLoading: false }}],
       [actions.fetchIssueFailure(), initialState, { ...initialState, ui: { isLoading: false } }],
       [actions.changeSearchTerm({ searchTerm }), initialState, { ...initialState, searchTerm }]
-    ])('should return the proper state for %s action', (action, initialState, expectedState) => expect(reducer(initialState, action)).toEqual(expectedState));
+    ])('should return the proper state for %o action', (action, initialState, expectedState) => expect(reducer(initialState, action)).toEqual(expectedState));
   });
 });
