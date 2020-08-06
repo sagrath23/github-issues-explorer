@@ -1,7 +1,6 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { v4 as uuidv4 } from 'uuid';
-import { AutoCompleteResult } from '../AutoCompleteResult';
+import { SearchResultList } from '../SearchResultList';
 import { actions } from '../../domains';
 import { isLoadingSelector, searchTermSelector,searchResultsSelector } from '../../selectors';
 
@@ -24,15 +23,8 @@ export const AutoComplete = () => {
         <div className="spinner-border text-light" role="status">
           <span className="sr-only">Loading...</span>
         </div>) : (
-        <div className="list-group">
-          {results.length > 0 && (
-            <>
-              {results.map((result) => (
-                <AutoCompleteResult key={uuidv4()} number={result.number} title={result.title} />
-              ))}
-            </>
-          )}
-        </div>)}
+        <SearchResultList results={results} />
+      )}
     </>
   );
 };
