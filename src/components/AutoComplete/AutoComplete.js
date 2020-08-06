@@ -3,12 +3,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import { v4 as uuidv4 } from 'uuid';
 import { AutoCompleteResult } from '../AutoCompleteResult';
 import { actions } from '../../domains';
-import { searchResultsSelector } from '../../selectors';
+import { isLoadingSelector, searchResultsSelector } from '../../selectors';
 
 export const AutoComplete = () => {
   const dispatch = useDispatch();
   const results = useSelector(searchResultsSelector);
-  const isLoading = false;
+  const isLoading = useSelector(isLoadingSelector);
   const handleInputChange = (event) => {
     const searchTerm = event.target.value;
 
