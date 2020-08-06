@@ -1,13 +1,14 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
+import { AutoCompleteResult } from '../AutoCompleteResult';
 import { actions } from '../../domains';
 import { searchResultsSelector } from '../../selectors';
 
 export const AutoComplete = () => {
   const dispatch = useDispatch();
   const results = useSelector(searchResultsSelector);
+  const isLoading = false;
   const handleInputChange = (event) => {
     const searchTerm = event.target.value;
 
@@ -16,15 +17,20 @@ export const AutoComplete = () => {
 
   return (
     <>
-      <input type="text" placeholder="put your issue here" onChange={handleInputChange} />
-      {results.length > 0 && (
-        <div>
-          {results.map((result) => (
-            <Link key={uuidv4()} to={`/issues/${result.number}`}>
-              <h2>{result.title}</h2>
-            </Link>))}
-        </div>
-      )}
+      <input className="form-control form-control-lg" type="text" placeholder="i.e Jest" onChange={handleInputChange} />
+      {isLoading ? (
+        <div className="spinner-border text-light" role="status">
+          <span className="sr-only">Loading...</span>
+        </div>) : (
+        <div className="list-group">
+          {results.length > 0 && (
+            <div>
+              {results.map((result) => (
+                <AutoCompleteResult key={uuidv4()} number={result.number} title={result.title} />
+              ))}
+            </div>
+          )}
+        </div>)}
     </>
   );
 };
