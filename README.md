@@ -1,3 +1,7 @@
+# Github Issues Explorer
+
+A small experiment to fetch & display react's issues in a minimalistic interface.
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts

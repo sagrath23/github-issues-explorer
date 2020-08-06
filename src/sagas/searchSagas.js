@@ -50,9 +50,7 @@ export function* fetchIssueDetail({ payload: { issueId }}){
   try {
     const requestResult = yield call(fetchIssue, issueId);
 
-    console.log(requestResult, 'detail');
-
-    yield put(actions.fetchIssueSuccessful(requestResult));
+    yield put(actions.fetchIssueSuccessful({ selectedIssue: requestResult }));
   } catch(error) {
     console.error(error);
 
