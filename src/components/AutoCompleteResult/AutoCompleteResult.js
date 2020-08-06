@@ -6,7 +6,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 export const AutoCompleteResult = ({ number, title }) => (
   <Link key={uuidv4()} className="list-group-item list-group-item-action" to={`/issues/${number}`}>
-    <p class="lead">
+    <p class="lead m-0">
       {title}
     </p>
   </Link>

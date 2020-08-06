@@ -5,7 +5,8 @@ export const fetchSearchWithSearchTerm = async (searchTerm) => {
   const octokit = new Octokit({});
   // check for open issues at react repo
   const result = await octokit.search.issuesAndPullRequests({
-    q: `repo:facebook/react+is:issue+is:open+${searchTerm}`
+    q: `repo:facebook/react+is:issue+is:open+${searchTerm}`,
+    per_page: 10
   });
 
   return result.data.items;
