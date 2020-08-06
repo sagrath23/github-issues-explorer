@@ -19,7 +19,5 @@ export const fetchIssue = async (issueId) => {
     issue_number: issueId
   });
 
-  console.log(result, 'da result');
-
-  return result;
+  return result.data;
 };

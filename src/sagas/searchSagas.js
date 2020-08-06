@@ -6,7 +6,7 @@ import {
   takeEvery,
   takeLatest
 } from 'redux-saga/effects';
-import { fetchSearchWithSearchTerm } from '../services';
+import { fetchIssue, fetchSearchWithSearchTerm } from '../services';
 import { actions } from '../domains';
 import { searchTermSelector } from '../selectors';
 
@@ -23,7 +23,11 @@ export function* watchLatestSearchTermChange() {
 
 export function* watchSearchRequest(){
   yield takeEvery(actions.searchRequest, fetchSearchResults);
-} 
+}
+
+export function* watchFetchIssueRequest(){
+  yield takeEvery(actions.fetchIssueRequest, fetchIssueDetail);
+}
 
 export function* fetchSearchResults() {
   const searchTerm = yield select(searchTermSelector);
@@ -39,5 +43,19 @@ export function* fetchSearchResults() {
     console.error(error);
 
     yield put(actions.searchFailure());
+  }
+}
+
+export function* fetchIssueDetail({ payload: { issueId }}){
+  try {
+    const requestResult = yield call(fetchIssue, issueId);
+
+    console.log(requestResult, 'detail');
+
+    yield put(actions.fetchIssueSuccessful(requestResult));
+  } catch(error) {
+    console.error(error);
+
+    yield put(actions.fetchIssueFailure());
   }
 }
