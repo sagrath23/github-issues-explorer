@@ -1,7 +1,8 @@
 import { actions, initialState, reducer } from '../searchDomain';
 
 describe('search domain', () =>{
-  const results = ['foo'];
+  const selectedIssue = 'foo';
+  const results = [selectedIssue];
   const issueId = 1234;
   const searchTerm = 'some text';
 
@@ -12,7 +13,7 @@ describe('search domain', () =>{
       [actions.searchSuccessful, { results }, { type: 'SEARCH_SUCCESSFUL', payload: { results } }],
       [actions.searchFailure, null, { type: 'SEARCH_FAILURE' }],
       [actions.fetchIssueRequest, { issueId }, { type: 'FETCH_ISSUE_REQUEST', payload: { issueId } }],
-      [actions.fetchIssueSuccessful, { results }, { type: 'FETCH_ISSUE_SUCCESSFUL', payload: { results } }],
+      [actions.fetchIssueSuccessful, { selectedIssue }, { type: 'FETCH_ISSUE_SUCCESSFUL', payload: { selectedIssue } }],
       [actions.fetchIssueFailure, null, { type: 'FETCH_ISSUE_FAILURE' }],
       [actions.changeSearchTerm, { searchTerm }, { type: 'CHANGE_SEARCH_TERM', payload: { searchTerm } }]
     ])('%s should return the proper object action', (actionCreator, params, expectedAction) => expect(params ? actionCreator(params) : actionCreator()).toEqual(expectedAction));
@@ -25,7 +26,7 @@ describe('search domain', () =>{
       [actions.searchSuccessful({ results }), initialState, { ...initialState, results, ui: { isLoading: false }}],
       [actions.searchFailure(), initialState, { ...initialState, ui: { isLoading: false } }],
       [actions.fetchIssueRequest({ issueId }), initialState, { ...initialState, ui: { isLoading: true }}],
-      [actions.fetchIssueSuccessful({ results }), initialState, { ...initialState, results, ui: { isLoading: false }}],
+      [actions.fetchIssueSuccessful({ selectedIssue }), initialState, { ...initialState, selectedIssue, ui: { isLoading: false }}],
       [actions.fetchIssueFailure(), initialState, { ...initialState, ui: { isLoading: false } }],
       [actions.changeSearchTerm({ searchTerm }), initialState, { ...initialState, searchTerm }]
     ])('should return the proper state for %o action', (action, initialState, expectedState) => expect(reducer(initialState, action)).toEqual(expectedState));

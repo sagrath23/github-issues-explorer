@@ -1,7 +1,9 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
+import { actions } from '../domains';
 import { selectedIssueSelector } from '../selectors';
+
 
 export const IssueDetailPage = () => {
   const dispatch = useDispatch();
@@ -10,9 +12,10 @@ export const IssueDetailPage = () => {
 
   useEffect(() => {
     if(!selectedIssue) {
-      console.log('dispatch action to load selected issue');
+      dispatch(actions.fetchIssueRequest({ issueId }));
+
     }
-  }, []);
+  }, [dispatch, issueId, selectedIssue]);
 
   return (
     <div>
